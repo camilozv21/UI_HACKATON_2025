@@ -28,7 +28,7 @@ export default function Home() {
             />
           ) : (
             /* Paso 3: mostrar componente de descarga */
-            <DownloadResult result={result} />
+            <DownloadResult />
           )}
         </>
       )}
