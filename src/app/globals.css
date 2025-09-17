@@ -1,0 +1,26 @@
+:root {
+  --background: #f5f5fa;
+  --foreground: #171717;
+  --primary-color: #f08727;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: #f5f5fa !important;
+  color: var(--foreground);
+  font-family: 'Manrope', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
