@@ -51,10 +51,10 @@ export default function Footer() {
         <div className={classes.logo}>
           <Flex align="center" gap="5px">
             <Image
-              src="https://df50lbm4qcrt6.cloudfront.net/adacompilance/adacompilance_logo.png"
+              src="https://df50lbm4qcrt6.cloudfront.net/hackathon/logo_website.png"
               alt="Logo"
-              width={40}
-              height={40}
+              width={60}
+              height={60}
               className={classes.logoImage}
             />
             <Text fw={700}>ADA Compliance</Text>

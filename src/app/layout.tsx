@@ -8,7 +8,6 @@ import '@mantine/notifications/styles.css';
 import { Manrope } from "next/font/google";
 import Header from "@/components/Header/Header";
 import { MantineProvider } from "@mantine/core";
-import { auth } from "@/auth";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -17,8 +16,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "ADA compliance | Generate Descriptions Online",
-  description: "Boost video accessibility and SEO with AI-generated, ADA-compliant descriptions in multiple languages. Expand your global reach and improve user experience.",
+  title: "A World Away: Hunting for Exoplanets",
+  description: "Data from several different space-based exoplanet surveying missions have enabled discovery of thousands of new planets outside our solar system, but most of these exoplanets were identified manually. With advances in artificial intelligence and machine learning (AI/ML), it is possible to automatically analyze large sets of data collected by these missions to identify exoplanets. Your challenge is to create an AI/ML model that is trained on one or more of the open-source exoplanet datasets offered by NASA and that can analyze new data to accurately identify exoplanets.",
 };
 
 export default async function RootLayout({
@@ -26,14 +25,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+
   return (
     <html lang="en">
       <body
         className={manrope.variable}
       >
         <MantineProvider>
-          <Header session={session} />
+          <Header />
           {children}
         </MantineProvider>
       </body>

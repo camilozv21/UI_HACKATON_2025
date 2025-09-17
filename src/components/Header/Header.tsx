@@ -1,12 +1,10 @@
 "use client";
 
-import { Burger, Container, Flex, Group } from "@mantine/core";
+import { Burger, Container, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import AuthButton from "./AuthButton";
-import { Session } from "next-auth";
 
 const links = [
   { link: "/about", label: "Features" },
@@ -14,7 +12,7 @@ const links = [
   { link: "/learn", label: "Learn" },
 ];
 
-export default function Header({ session }: { session: Session | null }) {
+export default function Header() {
   const [opened, { toggle }] = useDisclosure(false);
 
   const items = links.map((link) => (
@@ -28,10 +26,10 @@ export default function Header({ session }: { session: Session | null }) {
       <Container fluid className={classes.inner}>
         <Link href="/">
           <Image
-            src="https://df50lbm4qcrt6.cloudfront.net/adacompilance/adacompilance_logo.png"
+            src="https://df50lbm4qcrt6.cloudfront.net/hackathon/logo_website.png"
             alt="Logo"
-            width={40}
-            height={40}
+            width={60}
+            height={60}
             className={classes.logo}
           />
         </Link>
@@ -40,10 +38,6 @@ export default function Header({ session }: { session: Session | null }) {
         </Group>
 
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-
-        <Flex gap={10} style={{ marginLeft: "auto" }} visibleFrom="xs">
-          <AuthButton session={session} />
-        </Flex>
       </Container>
     </header>
   );

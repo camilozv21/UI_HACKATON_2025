@@ -1,14 +1,7 @@
-import { auth } from "@/auth";
 import { generateMultilangDescriptions } from "@/lib/googleClient";
-import { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
 
-export const POST = auth(async (req: NextAuthRequest) => {
-  const session = req.auth;
-
-  if (!session?.user) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+export async function POST(req: Request) {
 
   try {
     const { videoUrl, languages } = await req.json();
@@ -30,4 +23,4 @@ export const POST = auth(async (req: NextAuthRequest) => {
       { status: 500 }
     );
   }
-});
+};

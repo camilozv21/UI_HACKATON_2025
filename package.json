@@ -16,17 +16,13 @@
     "@mantine/modals": "^8.2.7",
     "@mantine/notifications": "^8.2.7",
     "@tabler/icons-react": "^3.34.1",
-    "file-saver": "^2.0.5",
     "google-auth-library": "^10.3.0",
-    "jszip": "^3.10.1",
     "next": "15.5.2",
-    "next-auth": "^5.0.0-beta.29",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/file-saver": "^2.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
