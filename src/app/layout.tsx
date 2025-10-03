@@ -8,6 +8,7 @@ import '@mantine/notifications/styles.css';
 import { Manrope } from "next/font/google";
 import Header from "@/components/Header/Header";
 import { MantineProvider } from "@mantine/core";
+import StoreProvider from "./StoreProvider";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -27,15 +28,17 @@ export default async function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
-      <body
-        className={manrope.variable}
-      >
-        <MantineProvider>
-          <Header />
-          {children}
-        </MantineProvider>
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <body
+          className={manrope.variable}
+        >
+          <MantineProvider>
+            <Header />
+            {children}
+          </MantineProvider>
+        </body>
+      </html>
+    </StoreProvider>
   );
 }

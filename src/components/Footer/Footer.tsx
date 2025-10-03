@@ -57,18 +57,17 @@ export default function Footer() {
               height={60}
               className={classes.logoImage}
             />
-            <Text fw={700}>ADA Compliance</Text>
+            <Text fw={700}>A World Away</Text>
           </Flex>
           <Text size="xs" c="dimmed" className={classes.description}>
-            Instantly generate ADA-compliant VTT captions for your videos using
-            AI
+            Analyze large sets of data collected by these missions to identify exoplanets
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © 2025 J&M Industry. All rights reserved.
+          © 2025 Space Wanderers.
         </Text>
       </Container>
     </footer>

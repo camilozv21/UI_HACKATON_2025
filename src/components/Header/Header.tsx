@@ -7,9 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const links = [
-  { link: "/about", label: "Features" },
-  { link: "/pricing", label: "Pricing" },
-  { link: "/learn", label: "Learn" },
+  // { link: "/about", label: "Features" },
+  // { link: "/pricing", label: "Pricing" },
+  { link: "/team", label: "Team" },
 ];
 
 export default function Header() {
