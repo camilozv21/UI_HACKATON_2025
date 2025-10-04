@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const links = [
   // { link: "/about", label: "Features" },
-  // { link: "/pricing", label: "Pricing" },
-  { link: "/team", label: "Team" },
+  { link: "/team", label: "Who we are?" },
+  { link: "/learn", label: "Learn more about exoplanets" },
 ];
 
 export default function Header() {
