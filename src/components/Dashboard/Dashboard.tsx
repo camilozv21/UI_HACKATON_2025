@@ -74,7 +74,7 @@ export type RecordItem = {
   depth_ppm: number;       // profundidad en ppm
   duration_hr: number;     // horas
   bls_snr: number;         // SNR BLS
-  proba: number;           // score del modelo prod
+  proba: number;           // score del Model prod
   label: "confirmed" | "fp" | "candidate";
   updatedAt: string;       // ISO/fecha legible
   updatedTs?: number;      // timestamp precalculado para ordenar
@@ -271,7 +271,7 @@ export default function Dashboard() {
     }
 
     const { data } = await response.json();
-    console.log("Modelo entrenado:", data);
+    console.log("Model entrenado:", data);
   };
 
   // ---- Fuente de misión y registros (vista tabla) ----
@@ -418,7 +418,7 @@ export default function Dashboard() {
             <Group gap="md">
               <Group gap="xs" visibleFrom="md">
                 <GitBranch size={16} />
-                <Text size="sm">Modelo en producción:</Text>
+                <Text size="sm">Live Model:</Text>
                 <Badge color="gray" variant="outline" radius="xl">rf@prod_v3</Badge>
               </Group>
               {/* <Group gap="xs">
@@ -438,7 +438,7 @@ export default function Dashboard() {
         <Grid gutter="lg">
           {/* Columna izquierda */}
           <Grid.Col span={{ base: 12, xl: 4 }} id="filters">
-            <Section title="Configuración del experimento" icon={Settings}>
+            <Section title="Experiment Filters" icon={Settings}>
               <Group grow mb="sm">
                 <Button
                   variant={mission === "TESS" ? "filled" : "light"}
@@ -583,12 +583,9 @@ export default function Dashboard() {
 
                 </Grid>
                 <Group mt="sm">
-                  <Button loading={loadingGetData} id="btn-apply-filters" size="sm" radius="xl" onClick={applyFilters}>Aplicar filtros</Button>
+                  <Button loading={loadingGetData} id="btn-apply-filters" size="sm" radius="xl" onClick={applyFilters}>Apply Filters</Button>
                   {/* <Button size="sm" variant="outline" radius="xl" onClick={resetPsFilters}>Limpiar</Button> */}
                 </Group>
-                <Text size="xs" c="dimmed" mt="xs">
-                  Al aplicar, se creará un dataset congelado (ej. <span style={{ fontFamily: "monospace" }}>custom_freeze</span>) con estos filtros sobre la tabla PS. Sustituye por tu endpoint <span style={{ fontFamily: "monospace" }}>POST /datasets</span>.
-                </Text>
               </Card>
               <Grid gutter="xs" mb="sm">
                 <Grid.Col span={4}>
@@ -599,13 +596,13 @@ export default function Dashboard() {
                 </Grid.Col>
                 <Grid.Col span={4}>
                   <Group gap="xs" mt="md">
-                    <Switch checked label="Modo sandbox" />
+                    <Switch checked label="Sandbox Mode" />
                   </Group>
                 </Grid.Col>
               </Grid>
             </Section>
 
-            <Section title="Métricas del modelo en producción" icon={Activity} id="prod-metrics">
+            <Section title="Model Metrics in Production" icon={Activity} id="prod-metrics">
               <Grid>
                 <Grid.Col span={6}><KPI label="PR-AUC" value={prodMetrics.prauc.toFixed(2)} /></Grid.Col>
                 <Grid.Col span={6}><KPI label="ROC-AUC" value={prodMetrics.rocauc.toFixed(2)} /></Grid.Col>
@@ -628,20 +625,21 @@ export default function Dashboard() {
 
           {/* Columna derecha */}
           <Grid.Col span={{ base: 12, xl: 8 }}>
-            <Section title="Registros precalculados (cache)" icon={Activity}>
+            <Section title="Precalculated Records (cache)" icon={Activity}>
+              <Text c="dimmed" size="xs" mb="sm">This is a demo due to limited GPU/CPU resources.</Text>
               <Group mb="sm" gap="md" wrap="wrap">
                 <Box>
-                  <Text size="xs">Buscar TIC/KIC</Text>
+                  <Text size="xs">Search TIC/KIC</Text>
                   <Input placeholder="Ej. TIC 140123456" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
                 </Box>
                 <Box>
-                  <Text size="xs">Ordenar por</Text>
+                  <Text size="xs">Sort by</Text>
                   <Select
                     value={sortBy}
                     data={[
                       { value: "score", label: "Score (desc)" },
-                      { value: "updatedAt", label: "Fecha (desc)" },
-                      { value: "period", label: "Periodo (asc)" },
+                      { value: "updatedAt", label: "Date (desc)" },
+                      { value: "period", label: "Period (asc)" },
                     ]}
                     onChange={(value) => {
                       if (value !== null) {
@@ -736,11 +734,11 @@ export default function Dashboard() {
                 </ScrollArea>
               </Box>
               <Group mt="sm" justify="space-between">
-                <Text size="sm">Mostrando {pageRecords.length} de {sorted.length} registros</Text>
+                <Text size="sm">Showing {pageRecords.length} of {sorted.length} records</Text>
                 <Group gap="xs">
-                  <Button size="sm" variant="outline" radius="xl" onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>Anterior</Button>
+                  <Button size="sm" variant="outline" radius="xl" onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>Previous</Button>
                   <Text size="sm">{page} / {totalPages}</Text>
-                  <Button size="sm" variant="outline" radius="xl" onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}>Siguiente</Button>
+                  <Button size="sm" variant="outline" radius="xl" onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages}>Next</Button>
                 </Group>
               </Group>
             </Section>
@@ -751,7 +749,7 @@ export default function Dashboard() {
                 <Tabs.Tab value="dt" leftSection={<Shuffle size={16} />}>Decision Tree</Tabs.Tab>
               </Tabs.List>
               <Tabs.Panel value="rf">
-                <Section title="Hiperparámetros — Deep Learning" icon={FlaskConical}>
+                <Section title="Hyperparameters — Deep Learning" icon={FlaskConical}>
                   <Grid gutter="xs">
                     <Grid.Col span={6}>
                       <NumberInput label="N Points" min={50} max={1000} step={10} value={rfParams.N_POINTS} onChange={v => setRfParams({ ...rfParams, N_POINTS: Number(v) })} />
@@ -773,13 +771,13 @@ export default function Dashboard() {
                     </Grid.Col>
                   </Grid>
                   <Group gap="md" mt="md">
-                    <Button radius="xl" onClick={trainingModel}>Entrenar RF</Button>
-                    <Button variant="outline" radius="xl">Comparar vs prod</Button>
+                    <Button radius="xl" onClick={trainingModel}>Train</Button>
+                    <Button variant="outline" radius="xl">Compare vs prod</Button>
                   </Group>
                 </Section>
                 <Grid gutter="lg" mt="lg">
                   <Grid.Col span={6}>
-                    <Section title="Métricas (CV por estrella)" icon={Activity}>
+                    <Section title="Metrics (CV by Star)" icon={Activity}>
                       <Grid>
                         <Grid.Col span={6}><KPI label="PR-AUC" value={rfMetrics ? rfMetrics.prauc.toFixed(2) : "—"} /></Grid.Col>
                         <Grid.Col span={6}><KPI label="ROC-AUC" value={rfMetrics ? rfMetrics.rocauc.toFixed(2) : "—"} /></Grid.Col>
@@ -800,7 +798,7 @@ export default function Dashboard() {
                     </Section>
                   </Grid.Col>
                   <Grid.Col span={6}>
-                    <Section title="Importancia de features" icon={FlaskConical}>
+                    <Section title="Feature Importance" icon={FlaskConical}>
                       <Box h={160}>
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={sampleImportances}>
@@ -808,7 +806,7 @@ export default function Dashboard() {
                             <XAxis dataKey="name" interval={0} angle={-20} textAnchor="end" height={60} />
                             <YAxis tickFormatter={(v) => (v * 100).toFixed(0) + "%"} />
                             <Legend />
-                            <Bar dataKey="value" name="Importancia" />
+                            <Bar dataKey="value" name="Importance" />
                           </BarChart>
                         </ResponsiveContainer>
                       </Box>
@@ -817,10 +815,10 @@ export default function Dashboard() {
                 </Grid>
               </Tabs.Panel>
               <Tabs.Panel value="dt">
-                <Section title="Hiperparámetros — Decision Tree" icon={FlaskConical}>
+                <Section title="Hyperparameters — Decision Tree" icon={FlaskConical}>
                   <Grid gutter="xs">
                     <Grid.Col span={6}>
-                      <NumberInput label="max_depth (null = ilimitado)" min={0} max={40} value={dtParams.max_depth ?? 0} onChange={v => setDtParams({ ...dtParams, max_depth: Number(v) === 0 ? null : Number(v) })} />
+                      <NumberInput label="max_depth (null = unlimited)" min={0} max={40} value={dtParams.max_depth ?? 0} onChange={v => setDtParams({ ...dtParams, max_depth: Number(v) === 0 ? null : Number(v) })} />
                     </Grid.Col>
                     <Grid.Col span={6}>
                       <NumberInput label="min_samples_split" min={2} max={50} value={dtParams.min_samples_split} onChange={v => setDtParams({ ...dtParams, min_samples_split: Number(v) })} />
@@ -833,13 +831,13 @@ export default function Dashboard() {
                     </Grid.Col>
                   </Grid>
                   <Group gap="md" mt="md">
-                    <Button radius="xl" onClick={handleTrainDT}>Entrenar DT</Button>
-                    <Button variant="outline" radius="xl">Comparar vs prod</Button>
+                    <Button radius="xl" onClick={handleTrainDT}>Train DT</Button>
+                    <Button variant="outline" radius="xl">Compare vs prod</Button>
                   </Group>
                 </Section>
                 <Grid gutter="lg" mt="lg">
                   <Grid.Col span={6}>
-                    <Section title="Métricas (CV por estrella)" icon={Activity}>
+                    <Section title="MMetrics (CV by Star)" icon={Activity}>
                       <Grid>
                         <Grid.Col span={6}><KPI label="PR-AUC" value={dtMetrics ? dtMetrics.prauc.toFixed(2) : "—"} /></Grid.Col>
                         <Grid.Col span={6}><KPI label="ROC-AUC" value={dtMetrics ? dtMetrics.rocauc.toFixed(2) : "—"} /></Grid.Col>
@@ -860,7 +858,7 @@ export default function Dashboard() {
                     </Section>
                   </Grid.Col>
                   <Grid.Col span={6}>
-                    <Section title="Importancia de features (ejemplo)" icon={FlaskConical}>
+                    <Section title="Feature Importance (example)" icon={FlaskConical}>
                       <Box h={160}>
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={sampleImportances}>
@@ -868,7 +866,7 @@ export default function Dashboard() {
                             <XAxis dataKey="name" interval={0} angle={-20} textAnchor="end" height={60} />
                             <YAxis tickFormatter={(v) => (v * 100).toFixed(0) + "%"} />
                             <Legend />
-                            <Bar dataKey="value" name="Importancia" />
+                            <Bar dataKey="value" name="Importance" />
                           </BarChart>
                         </ResponsiveContainer>
                       </Box>
@@ -881,19 +879,19 @@ export default function Dashboard() {
             <Text mt="lg" mb="md" c="dimmed" size="xs">
 
             </Text>
-            <Section title="Tus runs (sandbox)" icon={GitBranch}>
+            <Section title="Your runs (sandbox)" icon={GitBranch}>
               <Box>
                 <Table highlightOnHover>
                   <TableThead>
                     <TableTr>
                       <TableTh>Run</TableTh>
-                      <TableTh>Modelo</TableTh>
+                      <TableTh>Model</TableTh>
                       <TableTh>Dataset</TableTh>
                       <TableTh>Features</TableTh>
                       <TableTh>PR-AUC</TableTh>
                       <TableTh>Recall</TableTh>
                       <TableTh>F1</TableTh>
-                      <TableTh>Creado</TableTh>
+                      <TableTh>Created</TableTh>
                       <TableTh></TableTh>
                     </TableTr>
                   </TableThead>
@@ -910,8 +908,8 @@ export default function Dashboard() {
                         <TableTd>{r.createdAt}</TableTd>
                         <TableTd>
                           <Group gap="xs" justify="flex-end">
-                            <Button size="sm" variant="outline" radius="xl">Comparar</Button>
-                            <Button size="sm" radius="xl">Solicitar promoción</Button>
+                            <Button size="sm" variant="outline" radius="xl">Compare</Button>
+                            <Button size="sm" radius="xl">Request Promotion</Button>
                           </Group>
                         </TableTd>
                       </TableTr>
