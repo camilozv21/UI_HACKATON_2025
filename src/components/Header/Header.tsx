@@ -1,10 +1,12 @@
 "use client";
 
-import { Burger, Container, Group } from "@mantine/core";
+import { Burger, Container, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import Signin from "../Auth/Signin";
+import Signup from "../Auth/Singup";
 
 const links = [
   // { link: "/about", label: "Features" },
@@ -35,6 +37,11 @@ export default function Header() {
         </Link>
         <Group gap={5} visibleFrom="xs">
           {items}
+        </Group>
+
+        <Group gap={5} visibleFrom="xs" ml={"auto"}>
+          <Signup />
+          <Signin />
         </Group>
 
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />

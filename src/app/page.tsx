@@ -1,12 +1,13 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
-import Filters from "@/components/Dashboard/Filters";
+import CoreContent from "@/components/Home/CoreContent";
 
 export default function Home() {
 
   return (
     <>
       {/* <Filters /> */}
-      <Dashboard />
+      {/* <Dashboard /> */}
+      <CoreContent />
     </>
   );
 }
