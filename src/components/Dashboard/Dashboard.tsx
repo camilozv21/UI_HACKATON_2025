@@ -1,5 +1,7 @@
 "use client"
 
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Card, Text, Group, Badge, Button, Input, Select, Switch, Tabs, Table, Slider, NumberInput,
@@ -139,9 +141,9 @@ function KPI({ label, value, icon: Icon }: { label: string; value: string; icon?
   );
 }
 
-function Section({ title, children, icon: Icon }: React.PropsWithChildren<{ title: string; icon?: React.ElementType }>) {
+function Section({ title, children, icon: Icon, id }: React.PropsWithChildren<{ title: string; icon?: React.ElementType; id?: string }>) {
   return (
-    <Card shadow="sm" padding="md">
+    <Card shadow="sm" padding="md" id={id}>
       <Group gap="xs" mb="xs">
         {Icon && <Icon size={20} />}
         <Title order={4}>{title}</Title>
@@ -383,6 +385,26 @@ export default function Dashboard() {
     setSelectedFilters([]);
   }, [dataset]);
 
+  useEffect(() => {
+      driverObj.drive();
+  }, []);
+  
+    const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    steps: [
+      { element: '#filters', popover: { title: 'Filters Section', description: 'Here you can apply filters to your data.', side: "left", align: 'start' }},
+      { element: '#btn-mission-tess', popover: { title: 'Select TESS Mission', description: 'Click here to select the TESS mission.', side: "bottom", align: 'start' }},
+      { element: '#btn-mission-kepler', popover: { title: 'Select Kepler Mission', description: 'Click here to select the Kepler mission.', side: "bottom", align: 'start' }},
+      { element: '#select-dataset', popover: { title: 'Filter by table TESS or PS', description: 'Click here to select the dataset.', side: "bottom", align: 'start' }},
+      { element: '#select-fields', popover: { title: 'Chose the columns you want to filter', description: 'Click here to select the fields.', side: "bottom", align: 'start' }},
+      { element: '#additional-filters', popover: { title: 'Additional Filters', description: 'You can filter by various criteria.', side: "bottom", align: 'start' }},
+      { element: '#select-constellation', popover: { title: 'Select Constellation', description: 'Click here to select the Constellation.', side: "bottom", align: 'start' }},
+      { element: '#btn-apply-filters', popover: { title: 'Apply Filters', description: 'Click here to apply the selected filters.', side: "bottom", align: 'start' }},
+      { element: '#prod-metrics', popover: { title: 'Production Metrics', description: 'Click here to view the production metrics.', side: "bottom", align: 'start' }},
+    ],
+  });
+
   return (
     <Container fluid p={0} m={0} style={{ minHeight: "100vh", background: "linear-gradient(to bottom, #fff, #f8fafc)" }}>
       {/* Header */}
@@ -415,13 +437,14 @@ export default function Dashboard() {
       <Container size="xl" px="md" py="lg">
         <Grid gutter="lg">
           {/* Columna izquierda */}
-          <Grid.Col span={{ base: 12, xl: 4 }}>
+          <Grid.Col span={{ base: 12, xl: 4 }} id="filters">
             <Section title="Configuración del experimento" icon={Settings}>
               <Group grow mb="sm">
                 <Button
                   variant={mission === "TESS" ? "filled" : "light"}
                   color="blue"
                   onClick={() => setMission("TESS")}
+                  id="btn-mission-tess"
                 >
                   <Text fw={500}>TESS</Text>
                   {/* <Text size="xs" c="dimmed">Sectors • 2-min/20-sec cadence • All-sky</Text> */}
@@ -430,6 +453,7 @@ export default function Dashboard() {
                   variant={mission === "Kepler" ? "filled" : "light"}
                   color="yellow"
                   onClick={() => setMission("Kepler")}
+                  id="btn-mission-kepler"
                 >
                   <Text fw={500}>Kepler</Text>
                   {/* <Text size="xs" c="dimmed">Quarters • 30-min cadence • Cygnus Field</Text> */}
@@ -445,6 +469,7 @@ export default function Dashboard() {
                   value={dataset}
                   onChange={(value) => setDataset(value || "")}
                   mb="sm"
+                  id="select-dataset"
                 />
 
                 <MultiSelect
@@ -464,6 +489,7 @@ export default function Dashboard() {
                   }}
                   searchable
                   clearable
+                  id="select-fields"
                   styles={{
                     input: {
                       maxHeight: 100,
@@ -479,7 +505,7 @@ export default function Dashboard() {
                   <Text size="xs" fw={500}>Additional Filters</Text>
                   <Badge variant="outline" radius="xl">Active Filters: {additionalFilters.length}</Badge>
                 </Group>
-                <Grid gutter="xs">
+                <Grid gutter="xs" id="additional-filters">
                   <Grid.Col span={12}>
                     <Flex align={'center'} justify={'start'} h={'100%'}>
                       <Switch labelPosition="left" label="Controversial" checked={additionalFilters.some(f => f.label === 'Controversial')} onChange={e => {
@@ -511,7 +537,7 @@ export default function Dashboard() {
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
-                    <Autocomplete data={constellations} label="Constellation" value={additionalFilters.find(f => f.label === 'Constellation')?.value ?? ''} onChange={v => setAdditionalFilters(prev => {
+                    <Autocomplete id="select-constellation" data={constellations} label="Constellation" value={additionalFilters.find(f => f.label === 'Constellation')?.value ?? ''} onChange={v => setAdditionalFilters(prev => {
                       const existing = prev.find(f => f.label === 'Constellation');
                       if (existing) {
                         return prev.map(f => f.label === 'Constellation' ? { ...f, value: v } : f);
@@ -557,7 +583,7 @@ export default function Dashboard() {
 
                 </Grid>
                 <Group mt="sm">
-                  <Button loading={loadingGetData} size="sm" radius="xl" onClick={applyFilters}>Aplicar filtros</Button>
+                  <Button loading={loadingGetData} id="btn-apply-filters" size="sm" radius="xl" onClick={applyFilters}>Aplicar filtros</Button>
                   {/* <Button size="sm" variant="outline" radius="xl" onClick={resetPsFilters}>Limpiar</Button> */}
                 </Group>
                 <Text size="xs" c="dimmed" mt="xs">
@@ -579,7 +605,7 @@ export default function Dashboard() {
               </Grid>
             </Section>
 
-            <Section title="Métricas del modelo en producción" icon={Activity}>
+            <Section title="Métricas del modelo en producción" icon={Activity} id="prod-metrics">
               <Grid>
                 <Grid.Col span={6}><KPI label="PR-AUC" value={prodMetrics.prauc.toFixed(2)} /></Grid.Col>
                 <Grid.Col span={6}><KPI label="ROC-AUC" value={prodMetrics.rocauc.toFixed(2)} /></Grid.Col>
@@ -898,11 +924,6 @@ export default function Dashboard() {
         </Grid>
       </Container>
 
-      <Container size="lg" px="md" pb="xl" pt="sm">
-        <Text size="xs" c="dimmed">
-          * GroupKFold por estrella recomendado. Este MVP muestra gráficas de ejemplo. Sustituye por datos reales del backend (Lightkurve + tsfresh + BLS). Umbral afecta la decisión final en producción.
-        </Text>
-      </Container>
     </Container>
   );
 }
