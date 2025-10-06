@@ -48,20 +48,36 @@ export default function CoreContent() {
                     slideGap={0}
                     style={{ borderRadius: "0.5rem" }}
                 >
-                    {images.map((src, index) => (
+                                        {images.map((src, index) => (
                         <Carousel.Slide key={index}>
-                            <Image
-                                src={src}
-                                alt={`Slide ${index + 1}`}
-                                width={1200}
-                                height={500}
-                                style={{
-                                    width: "100%",
-                                    height: "auto",
-                                    borderRadius: "0.5rem",
-                                    display: "block",
-                                }}
-                            />
+                            <div style={{ position: "relative" }}>
+                                <Image
+                                    src={src}
+                                    alt={`Slide ${index + 1}`}
+                                    width={1200}
+                                    height={500}
+                                    style={{
+                                        width: "100%",
+                                        height: "auto",
+                                        borderRadius: "0.5rem",
+                                        display: "block",
+                                    }}
+                                />
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        bottom: "8px",
+                                        left: "8px",
+                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                        color: "white",
+                                        padding: "2px 4px",
+                                        borderRadius: "4px",
+                                        fontSize: "0.8rem",
+                                    }}
+                                >
+                                    AI generated image*
+                                </div>
+                            </div>
                         </Carousel.Slide>
                     ))}
                 </Carousel>
