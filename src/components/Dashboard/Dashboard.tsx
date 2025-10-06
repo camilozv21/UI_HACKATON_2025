@@ -200,7 +200,7 @@ export default function Dashboard() {
       .filter(Boolean);
 
     // Construye el query completo
-    const query = `SELECT ${fields} FROM ${dataset} ${conditions.length ? `WHERE tid = 259863352 AND ${conditions.join(" AND ")}` : ""}`.trim();
+    const query = `SELECT ${fields} FROM ${dataset} ${conditions.length ? `WHERE AND ${conditions.join(" AND ")}` : ""}`.trim();
     // const query = 'SELECT TOP 3 tid, toi, toipfx FROM TOI WHERE tid = 259863352'
 
     const body = {
