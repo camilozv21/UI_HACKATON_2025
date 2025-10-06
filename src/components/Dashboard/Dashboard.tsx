@@ -162,6 +162,7 @@ export default function Dashboard() {
   const [additionalFilters, setAdditionalFilters] = useState<{ value: string, label: string }[]>([]);
   const [conditionalFilters, setConditionalFilters] = useState<Record<string, number | null>>({});
   const [loadingGetData, setLoadingGetData] = useState(false);
+  const [loadingTrain, setLoadingTrain] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
   const [groupK, setGroupK] = useState(5);
   const [seed, setSeed] = useState(42);
@@ -246,7 +247,7 @@ export default function Dashboard() {
       return;
     }
 
-    setLoadingGetData(true);
+    setLoadingTrain(true);
 
     const mappedRecords = records.map(r => ({
       tid: r.tid,
@@ -264,7 +265,7 @@ export default function Dashboard() {
       }),
     });
 
-    setLoadingGetData(false);
+    setLoadingTrain(false);
     if (!response.ok) {
       console.error("Error en la API:", response.statusText);
       return;
@@ -771,7 +772,7 @@ export default function Dashboard() {
                     </Grid.Col>
                   </Grid>
                   <Group gap="md" mt="md">
-                    <Button radius="xl" onClick={trainingModel}>Train</Button>
+                    <Button loading={loadingTrain} radius="xl" onClick={trainingModel}>Train</Button>
                     <Button variant="outline" radius="xl">Compare vs prod</Button>
                   </Group>
                 </Section>
